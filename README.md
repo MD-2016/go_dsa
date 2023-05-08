@@ -1,2 +1,2 @@
-# go_dsa
-Data Structures and Algorithms written in Go for practice with the language syntax.
+# Go Data Structures & Algorithms
+Data Structures and Algorithms written in Go for practice with the language syntax. The idea behind this is to get used to using Go more in depth for future projects since the language actually looks interesting. I like the C-like syntax and since I've got experience with the C language, this should be a fun transition. Below will be notes about each algorithm and data structure that is implemented.
