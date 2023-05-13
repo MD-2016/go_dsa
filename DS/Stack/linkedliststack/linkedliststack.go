@@ -1,9 +1,11 @@
 package linkedliststack
 
-type Stack struct {
-	list *singlylinkedlist[T]
+import "go_dsa/DS/singlylinkedlist"
+
+type Stack[T comparable] struct {
+	list *singlylinkedlist.List[T]
 }
 
-func New() *Stack {
-	return &Stack{list: &singlylinkedlist}
+func New[T comparable]() *Stack[T] {
+	return &Stack[T]{list: &singlylinkedlist}
 }
