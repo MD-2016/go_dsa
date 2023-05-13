@@ -5,26 +5,26 @@ import (
 	"fmt"
 )
 
-type List[T any] struct {
+type List[T comparable] struct {
 	first  *node[T]
 	last   *node[T]
 	length int
 }
 
-type node[T any] struct {
+type node[T comparable] struct {
 	next  *node[T]
 	value T
 }
 
-func New[T any](vals ...T) *List[T] {
+func New[T comparable](vals ...T) *List[T] {
 	newList := &List[T]{}
 	if len(vals) > 0 {
-		newList.add(vals...)
+		newList.Add(vals...)
 	}
 	return newList
 }
 
-func (list *List[T]) add(vals ...T) {
+func (list *List[T]) Add(vals ...T) {
 	for _, val := range vals {
 		newNode := &node[T]{value: val}
 		if list.length == 0 {
@@ -38,11 +38,11 @@ func (list *List[T]) add(vals ...T) {
 	}
 }
 
-func (list *List[T]) append(vals ...T) {
-	list.add(vals...)
+func (list *List[T]) Append(vals ...T) {
+	list.Add(vals...)
 }
 
-func (list *List[T]) prepend(vals ...T) {
+func (list *List[T]) Prepend(vals ...T) {
 	for val := len(vals) - 1; val >= 0; val-- {
 		newNode := &node[T]{value: vals[val], next: list.first}
 		list.first = newNode
@@ -57,7 +57,7 @@ func (list *List[T]) inRange(index int) bool {
 	return index >= 0 && index < list.length
 }
 
-func (list *List[T]) get(index int) (T, error) {
+func (list *List[T]) Get(index int) (T, error) {
 	if !list.inRange(index) {
 		var empty T
 		return empty, errors.New("List index is out of range")
@@ -71,15 +71,15 @@ func (list *List[T]) get(index int) (T, error) {
 	return currElm.value, nil
 }
 
-func (list *List[T]) remove(index int) {
+func (list *List[T]) Remove(index int) (T, error) {
+	var empty T
 	if !list.inRange(index) {
-		errors.New("Index is not in range of list")
-		return
+		return empty, errors.New("index is not in range of list")
 	}
 
 	if list.length == 1 {
-		list.clear()
-		return
+		list.Clear()
+		return empty, nil
 	}
 
 	var previousNode *node[T]
@@ -100,12 +100,13 @@ func (list *List[T]) remove(index int) {
 		previousNode.next = removedNode.next
 	}
 
+	empty = removedNode.value
 	removedNode = nil
-
 	list.length--
+	return empty, nil
 }
 
-func (list *List[T]) contains(vals ...T) bool {
+func (list *List[T]) Contains(vals ...T) bool {
 
 	if len(vals) == 0 {
 		return true
@@ -130,21 +131,21 @@ func (list *List[T]) contains(vals ...T) bool {
 	return true
 }
 
-func (list *List[T]) size() int {
+func (list *List[T]) Size() int {
 	return list.length
 }
 
-func (list *List[T]) isEmpty() bool {
+func (list *List[T]) IsEmpty() bool {
 	return list.length == 0
 }
 
-func (list *List[T]) clear() {
+func (list *List[T]) Clear() {
 	list.length = 0
 	list.first = nil
 	list.last = nil
 }
 
-func (list *List[T]) indexOf(val T) int {
+func (list *List[T]) IndexOf(val T) int {
 	if list.length == 0 {
 		return -1
 	}
@@ -157,10 +158,10 @@ func (list *List[T]) indexOf(val T) int {
 	return -1
 }
 
-func (list *List[T]) insert(index int, vals ...T) {
+func (list *List[T]) Insert(index int, vals ...T) {
 	if !list.inRange(index) {
 		if index == list.length {
-			list.add(vals...)
+			list.Add(vals...)
 		}
 		return
 	}
@@ -195,7 +196,7 @@ func (list *List[T]) insert(index int, vals ...T) {
 	}
 }
 
-func (list *List[T]) toString() []string {
+func (list *List[T]) ToString() []string {
 	vals := []string{}
 	for node := list.first; node != nil; node = node.next {
 		vals = append(vals, fmt.Sprintf("%v", node.value))
