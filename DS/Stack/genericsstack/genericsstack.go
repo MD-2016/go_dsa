@@ -1,4 +1,4 @@
-package arraystack3
+package genericsstack
 
 import (
 	"errors"
@@ -9,35 +9,35 @@ type Stack[T any] struct {
 	elements []T
 }
 
-func new[T any]() *Stack[T] {
+func New[T any]() *Stack[T] {
 	return &Stack[T]{nil}
 }
 
-func (stack *Stack[T]) size() int {
+func (stack *Stack[T]) Size() int {
 	return len(stack.elements)
 }
 
-func (stack *Stack[T]) isEmpty() bool {
+func (stack *Stack[T]) IsEmpty() bool {
 	return len(stack.elements) == 0
 }
 
-func (stack *Stack[T]) peek() (T, error) {
+func (stack *Stack[T]) Peek() (T, error) {
 	var empty T
-	if stack.isEmpty() {
-		return empty, errors.New("Stack is empty. Cannot peek\n")
+	if stack.IsEmpty() {
+		return empty, errors.New("stack is empty. Cannot peek")
 	}
 
 	elm := stack.elements[len(stack.elements)-1]
 	return elm, nil
 }
 
-func (stack *Stack[T]) push(element T) {
+func (stack *Stack[T]) Push(element T) {
 	stack.elements = append(stack.elements, element)
 }
 
-func (stack *Stack[T]) pop() (T, error) {
+func (stack *Stack[T]) Pop() (T, error) {
 	var empty T
-	if stack.isEmpty() {
+	if stack.IsEmpty() {
 		return empty, errors.New("Stack is empty. Cannot pop")
 	}
 
@@ -46,11 +46,11 @@ func (stack *Stack[T]) pop() (T, error) {
 	return popped, nil
 }
 
-func (stack *Stack[T]) toString() string {
+func (stack *Stack[T]) ToString() string {
 	return fmt.Sprintf("%v", stack.elements)
 }
 
-func (stack *Stack[T]) reverse() []T {
+func (stack *Stack[T]) Reverse() []T {
 	stackL := len(stack.elements)
 	reverseStack := make([]T, stackL)
 	for i, elm := range stack.elements {
