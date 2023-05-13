@@ -45,5 +45,15 @@ func (stack *Stack) pop() (interface{}, error) {
 }
 
 func (stack *Stack) push(item interface{}) {
+	node := &node{
+		items: item,
+	}
 
+	if stack.head == nil {
+		stack.head = node
+	} else {
+		node.next = stack.head
+		stack.head = node
+	}
+	stack.length++
 }
