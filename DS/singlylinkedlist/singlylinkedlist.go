@@ -203,3 +203,11 @@ func (list *List[T]) ToString() []string {
 	}
 	return vals
 }
+
+func (list *List[T]) Values() []T {
+	vals := make([]T, list.length, list.length)
+	for i, node := 0, list.first; node != nil; i, node = i+1, node.next {
+		vals[i] = node.value
+	}
+	return vals
+}
