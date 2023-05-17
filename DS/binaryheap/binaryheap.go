@@ -1,8 +1,10 @@
 package binaryheap
 
 import (
+	"fmt"
 	"go_dsa/DS/arraylist"
 	"go_dsa/DS/utils"
+	"strings"
 )
 
 type BinaryHeap[T comparable] struct {
@@ -101,4 +103,26 @@ func (bh *BinaryHeap[T]) Size() int {
 
 func (bh *BinaryHeap[T]) Clear() {
 	bh.list.Clear()
+}
+
+func (bh *BinaryHeap[T]) Values() []T {
+	vals := make([]T, bh.list.Size())
+	for itr := bh.Iterator(); itr.Next(); {
+		vals[itr.Index()] = itr.Value()
+	}
+	return vals
+}
+
+func (bh *BinaryHeap[T]) ToString() string {
+	bhStr := ""
+	vals := []string{}
+	for itr := bh.Iterator(); itr.Next(); {
+		vals = append(vals, fmt.Sprintf("%v", itr.Value()))
+	}
+	bhStr += strings.Join(vals, ", ")
+	return bhStr
+}
+
+func (bh *BinaryHeap[T]) InRange(index int) bool {
+	return index >= 0 && index < bh.list.Size()
 }
